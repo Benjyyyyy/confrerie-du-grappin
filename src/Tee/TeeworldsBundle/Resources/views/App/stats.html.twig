@@ -1,0 +1,43 @@
+{% extends 'TeeworldsBundle::layout.html.twig' %}
+{% set menu = menu %}
+
+{% block title %}Partie du {{game}} - {% endblock %}
+
+{% block body %}
+    <section class="home-section text-center">
+		<div class="heading-about">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="wow bounceInDown" data-wow-delay="0.4s">
+							<div class="section-heading">
+								<h2>
+									Partie du {{game}}
+									<div class="dropdown" style="display:inline-block">
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									    {% for key, value in navGame %}
+											<li role="presentation"><a role="menuitem" tabindex="-1" href="{{key}}">{{value}}</a></li>
+										{% endfor %}
+									  </ul>
+									</div>
+								</h2>
+							</div>
+
+									
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    {{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : kill } ) }}
+	{{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : death } ) }}
+	{{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : weaponSuicide } ) }}
+	{{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : suicide } ) }}
+	{{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : teamkill } ) }}
+	{{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : ratio } ) }}
+	{{ include( 'TeeworldsBundle:App:table.html.twig', { 'data' : weapon } ) }}
+{% endblock %}

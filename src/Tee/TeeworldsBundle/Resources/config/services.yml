@@ -1,0 +1,15 @@
+parameters:
+
+services:
+    teeworlds.service.player:
+        class: Tee\TeeworldsBundle\Services\PlayerService
+        arguments: [@doctrine.orm.entity_manager]
+    teeworlds.service.game:
+        class: Tee\TeeworldsBundle\Services\GameService
+        arguments: [@doctrine.orm.entity_manager]
+    teeworlds.service.statistics:
+        class: Tee\TeeworldsBundle\Services\StatisticsService
+        arguments: [@doctrine.orm.entity_manager]
+    teeworlds.service.weapon:
+        class: Tee\TeeworldsBundle\Services\WeaponService
+        arguments: [@doctrine.orm.entity_manager]

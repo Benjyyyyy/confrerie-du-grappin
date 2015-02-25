@@ -1,0 +1,4 @@
+teeworlds:
+    resource: "@TeeworldsBundle/Controller/"
+    type:     annotation
+    prefix:   /
