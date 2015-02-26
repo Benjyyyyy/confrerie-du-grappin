@@ -168,21 +168,21 @@ class GamesUtils
 			{
 				$killer = GamesUtils::extractKiller( $line );
 				$victim = GamesUtils::extractVictim( $line );
-				GamesUtils::incrementArray( &$kill, $killer );
-				GamesUtils::incrementArray( &$death, $victim );
-				GamesUtils::incrementArray( &$weapon, GamesUtils::extractWeapon( $line ) );
+				GamesUtils::incrementArray( $kill, $killer );
+				GamesUtils::incrementArray( $death, $victim );
+				GamesUtils::incrementArray( $weapon, GamesUtils::extractWeapon( $line ) );
 			}
 			else if( GamesUtils::is( $line, '[TEAMKILL]' ) )
 			{
 				$killer = GamesUtils::extractKiller( $line );
-				GamesUtils::incrementArray( &$teamkill, $killer );
+				GamesUtils::incrementArray( $teamkill, $killer );
             }
 			else if( GamesUtils::is( $line, '[SUICIDE]' ) )
 			{
 				$killer = GamesUtils::extractKiller( $line );
 				if( GamesUtils::isWeaponDeath( $line ) )
-					GamesUtils::incrementArray( &$suicide, $killer );
-				else GamesUtils::incrementArray( &$suicidePique, $killer );
+					GamesUtils::incrementArray( $suicide, $killer );
+				else GamesUtils::incrementArray( $suicidePique, $killer );
             }
         }
 
