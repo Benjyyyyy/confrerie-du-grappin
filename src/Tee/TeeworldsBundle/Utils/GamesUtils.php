@@ -21,6 +21,9 @@ class GamesUtils
 									"suicide" => "Suicide Piques",
 									"teamKill" => "Teamkill",
 									"ratio" => "ratio",
+									"flagGrab" => "Drapeaux ramassés",
+									"flagReturn" => "Drapeaux ramenés",
+									"flagCapture" => "Drapeaux capturés",
 									"weapon" => "Armes"
 									);
 
@@ -30,6 +33,9 @@ class GamesUtils
 									"suicide" => array("Nom", "Nombre de suicide"),
 									"teamKill" => array("Nom", "Nombre de teamkill"),
 									"ratio" => array("Nom", "Ratio Victime/Mort"),
+									"flagGrab" => array("Nom", "Drapeaux ramassés"),
+									"flagReturn" => array("Nom", "Drapeaux ramenés"),
+									"flagCapture" => array("Nom", "Drapeaux capturés"),
 									"weapon" => array("Arme", "Victimes"),
 									);
 	
@@ -131,7 +137,7 @@ class GamesUtils
                     {
                         $nbUpdate++;
                         $game = new Game();
-                        $game->setDate( new \DateTime() );
+                        $game->setDate( GamesUtils::extractDateTime( $handle ) );
                         $game->setHash( $hash );
                         $game = $container->getServiceGame()->save( $game );
 
@@ -150,6 +156,18 @@ class GamesUtils
         return realpath( './' );
     }
 
+	public static function extractDateTime( $handle )
+    {
+		$date = new \DateTime();
+		while (!feof($handle))
+        {
+            $line = fgets($handle); // On lit la ligne courante
+			$date->setTimestamp( hexdec( GamesUtils::extractString( $line, "[", "]") ) );
+			break;
+		}
+		return $date;
+	}
+	
     public static function parseLog( $handle, $container, $game )
     {
         $kill = array();
@@ -157,7 +175,11 @@ class GamesUtils
         $teamkill = array();
         $suicide = array();
         $suicidePique = array();
+		$flagGrab = array();
+		$flagReturn = array();
+		$flagCapture = array();
         $weapon = array();
+		
 
         /*Tant que l'on est pas à la fin du fichier*/
         while (!feof($handle))
@@ -183,6 +205,21 @@ class GamesUtils
 				if( GamesUtils::isWeaponDeath( $line ) )
 					GamesUtils::incrementArray( $suicide, $killer );
 				else GamesUtils::incrementArray( $suicidePique, $killer );
+            }
+			else if( GamesUtils::is( $line, 'flag_return' ) )
+			{
+				$player = GamesUtils::extractPlayer( $line );
+				GamesUtils::incrementArray( $flagReturn, $player );
+            }
+			else if( GamesUtils::is( $line, 'flag_grab' ) )
+			{
+				$player = GamesUtils::extractPlayer( $line );
+				GamesUtils::incrementArray( $flagGrab, $player );
+            }
+			else if( GamesUtils::is( $line, 'flag_capture' ) )
+			{
+				$player = GamesUtils::extractPlayer( $line );
+				GamesUtils::incrementArray( $flagCapture, $player );
             }
         }
 
@@ -211,6 +248,9 @@ class GamesUtils
             $statistics->setSuicide( GamesUtils::getArrayValue($suicidePique, $player) );
             $statistics->setWeaponSuicide( GamesUtils::getArrayValue($suicide, $player) );
             $statistics->setTeamkill( GamesUtils::getArrayValue($teamkill, $player) );
+			$statistics->setFlagCapture( GamesUtils::getArrayValue($flagCapture, $player) );
+			$statistics->setFlagReturn( GamesUtils::getArrayValue($flagReturn, $player) );
+			$statistics->setFlagGrab( GamesUtils::getArrayValue($flagGrab, $player) );
             $container->getServiceStatistics()->save($statistics);
         }
         
@@ -240,6 +280,13 @@ class GamesUtils
 	{
 		return GamesUtils::extractString( $str, "killer='", "'");
 	}
+	
+	public static function extractPlayer( $str )
+	{
+		$player = GamesUtils::extractString( $str, "player='", "'");
+		$player = GamesUtils::extractStartString( $player, ':' );
+		return $player;
+	}
 
 
 	public static function isWeaponDeath( $str )
@@ -260,6 +307,13 @@ class GamesUtils
 	public static function extractVictim( $str )
 	{
 		return GamesUtils::extractString( $str, "victim='", "'");
+	}
+	
+	public static function extractStartString($str, $start)
+	{
+		if( !GamesUtils::is( $str, $start ) )
+			return $str;
+		return substr( $str, strpos($str, $start) + strlen( $start ) );
 	}
 
 	public static function extractString($str, $start, $end)

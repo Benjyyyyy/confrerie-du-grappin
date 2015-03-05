@@ -50,13 +50,13 @@ class AppController extends AbstractController
 						'suicide' => GamesUtils::getData( $statistics, 'suicide', 'getSuicide'),
 						'teamkill' => GamesUtils::getData( $statistics, 'teamKill', 'getTeamKill'),
 						'ratio' => GamesUtils::getData( $statistics, 'ratio', 'getRatio'),
+						'flagGrab' => GamesUtils::getData( $statistics, 'flagGrab', 'getFlagGrab'),
+						'flagReturn' => GamesUtils::getData( $statistics, 'flagReturn', 'getFlagReturn'),
+						'flagCapture' => GamesUtils::getData( $statistics, 'flagCapture', 'getFlagCapture'),
                         'weapon' => GamesUtils::getDataWeapon( $this->getServiceWeapon()->getWeaponByGame( $game ), 'weapon'),
                         'menu' => GamesUtils::$titles,
                         'navGame' => $navGame
 						);
-						
-						
-						
     }
 
     /**
@@ -72,6 +72,9 @@ class AppController extends AbstractController
                         'suicide' => GamesUtils::getTotalData( $statistics, 'suicide'),
                         'teamkill' => GamesUtils::getTotalData( $statistics, 'teamKill'),
                         'ratio' => GamesUtils::getTotalData( $statistics, 'ratio'),
+						'flagGrab' => GamesUtils::getTotalData( $statistics, 'flagGrab'),
+						'flagReturn' => GamesUtils::getTotalData( $statistics, 'flagReturn'),
+						'flagCapture' => GamesUtils::getTotalData( $statistics, 'flagCapture'),
                         'weapon' => GamesUtils::getTotalDataWeapon( $this->getServiceWeapon()->getTotalWeapon(), 'weapon'),
                         'menu' => GamesUtils::$titles
                         );

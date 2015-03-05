@@ -27,7 +27,7 @@ class StatisticsRepository extends EntityRepository
 	public function getTotalStatistics()
 	{
 		$qb = $this->_em->createQueryBuilder();
-		$qb->select("p.nickname as player, SUM(s.frag) as kill, SUM(s.death) as death, SUM(s.suicide) as suicide, SUM(s.weaponSuicide) as weaponSuicide, SUM(s.teamkill) as teamKill ");
+		$qb->select("p.nickname as player, SUM(s.frag) as kill, SUM(s.death) as death, SUM(s.suicide) as suicide, SUM(s.weaponSuicide) as weaponSuicide, SUM(s.teamkill) as teamKill, SUM(s.flagGrab) as flagGrab, SUM(s.flagReturn) as flagReturn, SUM(s.flagCapture) as flagCapture ");
 		$qb->from("TeeworldsBundle:Statistics", "s");
 		$qb->leftJoin("s.player","p");
 		$qb->groupBy( "p.nickname ");

@@ -57,6 +57,27 @@ class Statistics
     private $teamkill = 0;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="flag_grab", type="integer", nullable=true , options={"default" : 0})
+     */
+    private $flagGrab = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="flag_return", type="integer", nullable=true , options={"default" : 0})
+     */
+    private $flagReturn = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="flag_capture", type="integer", nullable=true , options={"default" : 0})
+     */
+    private $flagCapture = 0;
+
+    /**
      * @var Game $game
      * @ORM\ManyToOne(targetEntity="Tee\TeeworldsBundle\Entity\Game", fetch="EAGER")
      * @ORM\JoinColumn(name="game", referencedColumnName="id")
@@ -194,6 +215,75 @@ class Statistics
     public function getTeamkill()
     {
         return $this->teamkill;
+    }
+	
+	/**
+     * Set flagGrab
+     *
+     * @param integer $flagGrab
+     * @return Statistics
+     */
+    public function setFlagGrab($flagGrab)
+    {
+        $this->flagGrab = $flagGrab;
+
+        return $this;
+    }
+
+    /**
+     * Get flagGrab
+     *
+     * @return integer 
+     */
+    public function getFlagGrab()
+    {
+        return $this->flagGrab;
+    }
+
+	/**
+     * Set flagReturn
+     *
+     * @param integer $flagReturn
+     * @return Statistics
+     */
+    public function setFlagReturn($flagReturn)
+    {
+        $this->flagReturn = $flagReturn;
+
+        return $this;
+    }
+
+    /**
+     * Get flagReturn
+     *
+     * @return integer 
+     */
+    public function getFlagReturn()
+    {
+        return $this->flagReturn;
+    }
+	
+	/**
+     * Set flagCapture
+     *
+     * @param integer $flagCapture
+     * @return Statistics
+     */
+    public function setFlagCapture($flagCapture)
+    {
+        $this->flagCapture = $flagCapture;
+
+        return $this;
+    }
+
+    /**
+     * Get flagCapture
+     *
+     * @return integer 
+     */
+    public function getFlagCapture()
+    {
+        return $this->flagCapture;
     }
 
     /**
