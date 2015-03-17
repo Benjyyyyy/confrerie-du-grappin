@@ -86,7 +86,7 @@ class GamesUtils
         {
             if( $statName == "ratio" )
             {
-                $value = round( $s['kill']/$s['death'], 2);
+                $value = GamesUtils::calculateRatio( $s['kill'], $s['death'], $s['suicide'], $s['weaponSuicide']);
             }
             else {
                 $value = $s[$statName];
@@ -100,6 +100,14 @@ class GamesUtils
             asort( $data['values'] );
         else arsort( $data['values'] );
         return $data;
+    }
+	
+    public static function calculateRatio( $kill, $death, $suicide, $weaponSuicide )
+    {
+        $allDeath = intval($death) + intval($suicide) + intval($weaponSuicide);
+        if( $allDeath == 0 )
+            return $kill;
+        else return round( $kill/$allDeath, 2);
     }
 
     public static function getTotalDataWeapon( $weapons, $statName )
