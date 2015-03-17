@@ -3,6 +3,7 @@
 namespace Tee\TeeworldsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Tee\TeeworldsBundle\Utils\GamesUtils;
 
 /**
  * Statistics
@@ -339,9 +340,7 @@ class Statistics
      */
     public function getRatio()
     {
-        if( $this->death == 0 )
-            return 1000;
-        return round( $this->frag/$this->death, 2);
+        return GamesUtils::calculateRatio( $this->frag, $this->death, $this->suicide, $this->weaponSuicide );
     }
 }
 ?>
